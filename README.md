@@ -1,2 +1,2 @@
 # rexcavator
-Remote excavator
+R/C controlled excavator
