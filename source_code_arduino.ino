@@ -3,8 +3,8 @@
 
 FUTABA_SBUS sBus; //sBus wird instanziert, verwendet den Serial1-RX-Pin
 
-const int deadzone = 120; //Legt einen Totbereich in der Mitte jedes Proportionalventils fest
-const int idle = 127; //Legt den Tastgrad im deadzone für den Leerlauf fest
+const int deadzone = 10; //Legt einen Totbereich in der Mitte jedes Proportionalventils fest
+const int idle = 0; //Legt den Tastgrad im deadzone für den Leerlauf fest
 
 int channel[] {0,1,2,3,4,5,6,7};  //Kanal-Eingangswerte nach Mapping
 
@@ -40,19 +40,19 @@ void loop()
   }  
 
   //Erzeugt die PWM-Signale für die acht PWM-Ausgänge:
-  dutyCycle[0] = channel[0];
-  dutyCycle[1] = 255 - channel[0];
-  dutyCycle[2] = channel[1];
-  dutyCycle[3] = 255 - channel[1];
-  dutyCycle[4] = channel[2];
-  dutyCycle[5] = 255 - channel[2];
-  dutyCycle[6] = channel[3];
-  dutyCycle[7] = 255 - channel[3]; 
+  dutyCycle[0] = channel[0] * 2 - 255;
+  dutyCycle[1] = 255 - channel[0] * 2;
+  dutyCycle[2] = channel[1] * 2 - 255;
+  dutyCycle[3] = 255 - channel[1] * 2;
+  dutyCycle[4] = channel[2] * 2 - 255;
+  dutyCycle[5] = 255 - channel[2] * 2;
+  dutyCycle[6] = channel[3] * 2 - 255;
+  dutyCycle[7] = 255 - channel[3] * 2;
 
   //Software-deadzone wird erzeugt:
   for (byte i = 0; i < 8; i++) 
   {
-    if (dutyCycle[i] > deadzone && dutyCycle[i] < 255 - deadzone)
+    if (dutyCycle[i] < deadzone)
     {  
       dutyCycle[i] = idle;
     }
